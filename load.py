@@ -1,8 +1,6 @@
 from sqlalchemy import create_engine
 
-# Create local SQLite DB in local folder
-engine = create_engine('sqlite:///rdw_voertuigen.db')
-
-# Load to localDB
-df_clean.to_sql('voertuigen', con=engine, if_exists='replace', index=False)
-print('Data successfully loaded in DB')
+def load_to_sqlite(df, db_name='rdw_voertuigen.db', table_name='voertuigen'):
+    engine = create_engine(f'sqlite:///{db_name}')
+    df.to_sql(table_name, con=engine, if_exists='replace', index=False)
+    print(f"Succesvol {len(df)} rijen weggeschreven naar tabel '{table_name}' in {db_name}")
