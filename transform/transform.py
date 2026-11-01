@@ -17,6 +17,7 @@ def transform_data(raw_data):
         errors='coerce'
     ).dt.date
 
+    # Format date
     df_clean['datum_eerste_toelating'] = pd.to_datetime(
         df_clean['datum_eerste_toelating'],
         format='%Y%m%d',
