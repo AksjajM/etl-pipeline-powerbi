@@ -10,4 +10,18 @@ def transform_data(raw_data):
     # Clean data
     df_clean['kenteken'] = df_clean['kenteken'].str.strip()
 
+    # Format date
+    df_clean['vervaldatum_apk'] = pd.to_datetime(
+        df_clean['vervaldatum_apk'],
+        format='%Y%m%d',
+        errors='coerce'
+    ).dt.date
+
+    df_clean['datum_eerste_toelating'] = pd.to_datetime(
+        df_clean['datum_eerste_toelating'],
+        format='%Y%m%d',
+        errors='coerce'
+    ).dt.date
+
     return df_clean
+    # print(df_clean)
