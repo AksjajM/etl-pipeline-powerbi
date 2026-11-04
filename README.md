@@ -2,6 +2,8 @@
 
 An end-to-end Python ETL pipeline that extracts open vehicle registration data from the Dutch **RDW (Rijksdienst voor het Wegverkeer)** API, cleanses and formats attributes, and loads the data into high-performance analytical storage formats (**Apache Parquet** & **SQLite**) ready for business intelligence consumption via **Power BI**.
 
+---
+
 ## 📌 Executive Summary
 
 * **Domain:** Public Automotive & Vehicle Registration Analytics
@@ -10,6 +12,8 @@ An end-to-end Python ETL pipeline that extracts open vehicle registration data f
 * **Storage Formats:** Columnar Apache Parquet (`.parquet`) & Relational SQLite (`.db`)
 * **Analytics Layer:** Power BI Desktop (`.pbix`)
 * **Core Stack:** Python 3, Pandas, PyArrow, Requests, SQLAlchemy, Power BI
+
+---
 
 ## 🏗 System Architecture & Data Flow
 
@@ -42,6 +46,25 @@ flowchart LR
     end
 ```
 
+---
+
+## 📊 Power BI Dashboard Preview
+
+> *An interactive business intelligence report built on top of the compressed Parquet data layer to track fleet composition, compliance, and registration timelines.*
+
+<div align="center">
+  <img src="PowerBI/dashboard_screenshot.png" alt="Power BI RDW Dashboard Screenshot" width="850">
+  <br/>
+  <em>Figure 1: Power BI Report Overview (Fleet Distribution, Vehicle Classes & Inspection Forecasts)</em>
+</div>
+
+### 🔍 Key Metrics & Visual Insights
+* **Fleet Classification:** Real-time distribution across categories (Personenauto's, Bedrijfswagens, Aanhangwagens, Motorfietsen).
+* **MOT (APK) Expiration Tracking:** Proactive tracking of upcoming mandatory vehicle inspection deadlines to analyze fleet maintenance cycles.
+* **Admission Cohort Trends:** Historical breakdown based on `datum_eerste_toelating` to determine average vehicle age per class.
+
+---
+
 ## ⚙️ Key Technical Features
 
 ### 1. Robust API Ingestion (`extract/extract.py`)
@@ -66,9 +89,11 @@ flowchart LR
 * Pre-built **Power BI** dashboard model directly reading the optimized output.
 * Designed for fleet monitoring, category distribution, vehicle age breakdowns, and MOT expiration compliance tracking.
 
+---
+
 ## 📂 Repository Structure
 
-```
+```text
 .
 ├── extract/
 │   └── extract.py             # API consumer (RDW Open Data REST API)
@@ -77,13 +102,16 @@ flowchart LR
 ├── load/
 │   └── load.py                # Dual destination loader (Parquet & SQLite)
 ├── PowerBI/
-│   └── *.pbix                 # Power BI report files & data models
+│   ├── Basic PowerBI report from parquet.pbix   # Power BI report & data model
+│   └── dashboard_screenshot.png                 # Dashboard preview screenshot
 ├── rdw_voertuigen.parquet     # Generated columnar dataset
 ├── rdw_voertuigen.db          # Generated SQLite database file (optional)
 ├── main.py                    # Orchestration script (executes end-to-end pipeline)
 ├── requirements.txt           # Project dependencies & versions
 └── README.md                  # Project documentation
 ```
+
+---
 
 ## 🚀 Getting Started
 
@@ -97,6 +125,7 @@ Clone the repository and install the dependencies:
 ```bash
 git clone https://github.com/your-username/rdw-vehicle-etl.git
 cd rdw-vehicle-etl
+
 python -m venv venv
 # On Windows:
 venv\Scripts\activate
@@ -123,7 +152,9 @@ Succesvol 500 rijen weggeschreven naar tabel 'voertuigen' in rdw_voertuigen.db
 
 ### 3. Exploring the Data
 * **Parquet File:** Load `rdw_voertuigen.parquet` directly into **Power BI**, Pandas, DuckDB, or Polars.
-* **Power BI:** Open the `.pbix` file in the `PowerBI/` folder to interact with the visualizations and metrics.
+* **Power BI:** Open `PowerBI/Basic PowerBI report from parquet.pbix` to interact with the visualizations and metrics.
+
+---
 
 ## 📈 Data Schema & Output Definition
 
@@ -131,8 +162,10 @@ Succesvol 500 rijen weggeschreven naar tabel 'voertuigen' in rdw_voertuigen.db
 | :--- | :--- | :--- |
 | `kenteken` | `String` | Vehicle license plate (cleaned and stripped) |
 | `voertuigsoort` | `String` | Registered vehicle classification (e.g., Personenauto, Motorfiets) |
-| `vervaldatum_apk` | `Date` | Expiration date of the statutory vehicle inspection (APK) |
+| `vervaldatum_apk` | `Date` | Expiration date of statutory vehicle inspection (APK) |
 | `datum_eerste_toelating` | `Date` | Official date when the vehicle was first registered / admitted |
+
+---
 
 ## 💡 Roadmap & Future Enhancements
 
